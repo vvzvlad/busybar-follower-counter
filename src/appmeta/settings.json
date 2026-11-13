@@ -1,0 +1,24 @@
+{
+  "format_version": 1,
+  "version": 1,
+  "fields": {
+    "network": {
+      "type": "enum",
+      "label": "Network",
+      "description": "Where the account is.",
+      "default": "bluesky",
+      "options": [
+        { "value": "bluesky", "label": "Bluesky" },
+        { "value": "mastodon", "label": "Mastodon" }
+      ]
+    },
+    "handle": {
+      "type": "string",
+      "label": "Handle",
+      "description": "Bluesky: name.bsky.social. Mastodon: user@instance.",
+      "default": "bsky.app",
+      "min_length": 1,
+      "max_length": 128
+    }
+  }
+}
