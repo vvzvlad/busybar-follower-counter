@@ -1,0 +1,6 @@
+{
+  "category": "social",
+  "short_description": "Your Bluesky or Mastodon follower count in large digits on your BUSY Bar.",
+  "description": "## How to use\n\n- In the app's settings, choose the network and enter your handle, such as bsky.app on Bluesky or Gargron@mastodon.social on Mastodon.\n- Turn the wheel to switch between followers, following and posts.\n\n## What you see\n\nThe network and the count in large digits. The app updates it every 10 minutes.\n\n## Data\n\nThe public Bluesky and Mastodon APIs, no account or key needed.",
+  "changelog": "First release: Bluesky and Mastodon, followers, following and posts."
+}
