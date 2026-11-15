@@ -6,7 +6,7 @@ A JavaScript app for [BUSY Bar](https://busy.app). Work in progress.
 
 ## What it does
 
-- The front display shows the network's logo, the count in large digits and today's change, such as `+12 today`.
+- The front display shows the network's pixel logo (the Bluesky butterfly or the Mastodon "m"), the count in large digits and today's change, such as `+12 today`.
 - The wheel switches between followers, following and posts.
 - Every round number (you choose the step) sets off fireworks across the screen, with a sound and the status light.
 - The back display shows the daily change and a small chart from the history the app keeps.

@@ -1,3 +1,4 @@
+import { generateXpm2 } from "@busy-app/busy-lib";
 import { device } from "@shared/device";
 import manifest from "./appmeta/manifest.json";
 import { createScreen, type Element } from "./screen";
@@ -25,10 +26,37 @@ const METRICS: { key: keyof Counts; label: string }[] = [
   { key: "posts", label: "POSTS" },
 ];
 
-const NETWORKS: Record<Network, { label: string; color: string; load: (handle: string) => Promise<Counts> }> = {
+/** The count starts right of the widest logo, 11 px, and a px of space; a count too wide for that moves left. */
+const COUNT_X = 12;
+
+/**
+ * The count's width in the large font, as busy-lib measures it: a digit 7 px, a 1 5 px, a comma 3 px. A table of its
+ * own: importing textWidth would bundle the glyph maps of the fonts into the heap.
+ */
+function countWidth(text: string): number {
+  let width = 0;
+  for (const ch of text) width += ch === "1" ? 5 : ch === "," ? 3 : 7;
+  return width;
+}
+
+/** Each network's logo at the top left, 9 px high, and how to read its counts. */
+const NETWORKS: Record<Network, { logo: string; load: (handle: string) => Promise<Counts> }> = {
   bluesky: {
-    label: "BSKY",
-    color: "#1185FEFF",
+    // The butterfly in Bluesky's blue.
+    logo: generateXpm2({
+      palette: { ".": "none", b: "#1185FE" },
+      grid: [
+        "bb.......bb",
+        "bbbb...bbbb",
+        "bbbbb.bbbbb",
+        "bbbbbbbbbbb",
+        ".bbbbbbbbb.",
+        "..bbbbbbb..",
+        ".bbbbbbbbb.",
+        ".bbbb.bbbb.",
+        "..bb...bb..",
+      ],
+    }),
     load: async (handle) => {
       const body = (await json(
         `https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=${encodeURIComponent(handle.replace(/^@/, ""))}`,
@@ -37,8 +65,21 @@ const NETWORKS: Record<Network, { label: string; color: string; load: (handle: s
     },
   },
   mastodon: {
-    label: "MSTDN",
-    color: "#8C8DFFFF",
+    // The white "m" in the speech bubble, Mastodon's purple shading darker to the bottom.
+    logo: generateXpm2({
+      palette: { ".": "none", p: "#6364FF", q: "#563ACC", w: "#FFFFFF" },
+      grid: [
+        ".ppppppp.",
+        "ppwwpwwpp",
+        "pwppwppwp",
+        "pwppwppwp",
+        "qwqqwqqwq",
+        "qwqqqqqwq",
+        "qqqqqqqqq",
+        "qqqqqqqq.",
+        ".qqqq....",
+      ],
+    }),
     // "user@instance", asked of the instance itself.
     load: async (handle) => {
       const at = handle.lastIndexOf("@");
@@ -78,28 +119,21 @@ function thousands(value: number): string {
   return out;
 }
 
-/** The network and the metric on the top line, the count large under them; "--" without counts. */
+/** The network's logo at the top left, the metric at the top right, the count large right of the logo; "--" without counts. */
 function frame(network: Network, counts: Counts | null, metric: number): Element[] {
   const m = METRICS[metric];
+  const count = counts === null ? "--" : thousands(counts[m.key]);
   return [
-    {
-      type: "text",
-      id: "network",
-      text: NETWORKS[network].label,
-      font: "small",
-      color: NETWORKS[network].color,
-      x: 0,
-      y: -2,
-      align: "top_left",
-    },
+    { type: "xpmbitmap", id: "logo", data: NETWORKS[network].logo, x: 0, y: 0, align: "top_left" },
     { type: "text", id: "metric", text: m.label, font: "small", color: SUBTLE_WHITE, x: 72, y: -2, align: "top_right" },
     {
       type: "text",
       id: "count",
-      text: counts === null ? "--" : thousands(counts[m.key]),
+      text: count,
       font: "large",
       color: WHITE,
-      x: 0,
+      // 35,679,260 is 62 px: from x=10 it ends on the last column, next to the logo, whose rows by the digits end at x=9.
+      x: Math.min(COUNT_X, 72 - countWidth(count)),
       y: 4,
       align: "top_left",
     },
