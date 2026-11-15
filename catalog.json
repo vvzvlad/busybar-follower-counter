@@ -1,6 +1,6 @@
 {
   "category": "social",
   "short_description": "Your Bluesky or Mastodon follower count in large digits on your BUSY Bar.",
-  "description": "## How to use\n\n- In the app's settings, choose the network and enter your handle, such as bsky.app on Bluesky or Gargron@mastodon.social on Mastodon.\n- Turn the wheel to switch between followers, following and posts.\n\n## What you see\n\nThe network's logo, the Bluesky butterfly or the Mastodon bubble, and the count in large digits. The app updates it every 10 minutes.\n\n## Data\n\nThe public Bluesky and Mastodon APIs, no account or key needed.",
-  "changelog": "First release: Bluesky and Mastodon, followers, following and posts."
+  "description": "## How to use\n\n- In the app's settings, choose the network and enter your handle, such as bsky.app on Bluesky or Gargron@mastodon.social on Mastodon, and the step for the fireworks.\n- Turn the wheel to switch between followers, following and posts.\n\n## What you see\n\n- The network's logo, the Bluesky butterfly or the Mastodon bubble, and the count in large digits. On the followers view, today's gain sits above it, such as +12 TODAY. The app updates it every 10 minutes.\n- When your followers pass a round number, a multiple of the step you set (100 by default), fireworks go off across the screen with a sound and the status light.\n- The back display shows the followers, today's gain and a chart of the last 24 hours.\n- Without a connection the last counts stay, dimmed, with a red cross in the corner.\n\n## Data\n\nThe public Bluesky and Mastodon APIs, no account or key needed.",
+  "changelog": "First release: Bluesky and Mastodon, followers, following and posts, today's gain, fireworks on round numbers, a 24-hour chart on the back display."
 }

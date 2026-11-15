@@ -19,6 +19,14 @@
       "default": "bsky.app",
       "min_length": 1,
       "max_length": 128
+    },
+    "step": {
+      "type": "integer",
+      "label": "Fireworks every",
+      "description": "Fireworks when the followers pass a multiple of this.",
+      "default": 100,
+      "min": 1,
+      "max": 1000000000
     }
   }
 }
