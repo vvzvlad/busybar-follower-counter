@@ -2,7 +2,7 @@
 
 Your Bluesky or Mastodon follower count, live.
 
-![Follower Counter on the BUSY Bar: the Bluesky butterfly, +4,844 TODAY, 35,692,151](media/followers.png)
+![Follower Counter on the BUSY Bar: the Bluesky butterfly, +10,426 TODAY, 35,692,485](media/followers.png)
 
 Put your Bluesky or Mastodon handle in the settings, and the bar shows how many followers you have and how many you gained today. Fireworks go off when the count passes a round number, and the back display draws your followers over the last 24 hours.
 
@@ -10,11 +10,11 @@ A JavaScript app for [BUSY Bar](https://busy.app).
 
 ## What the bar shows
 
-The front display shows the network's logo, the Bluesky butterfly or the Mastodon "m", and the follower count in large digits. Top right are the followers gained since midnight, such as `+4,844 TODAY`; while no count since midnight is known, it says FOLLOWERS.
+The front display shows the network's logo, the Bluesky butterfly or the Mastodon "m", and the follower count in large digits. Top right are the followers gained since midnight, such as `+10,426 TODAY`; while no count since midnight is known, it says FOLLOWERS.
 
 The back display shows the followers, the day's gain, and a graph of the last 24 hours, a column for every 10 minutes, the newest on the right. The graph is scaled from the day's lowest count to its highest; a column where the count is not known, because the app was closed or its polls failed, stays empty.
 
-![The back display: 35,692,151, +4,844 TODAY and the rising graph of the day](media/followers-back.png)
+![The back display: 35,692,485, +10,426 TODAY and the rising graph of the day](media/followers-back.png)
 
 Turning the wheel switches the front display to the accounts you follow, then to your posts, then back to the followers.
 
@@ -24,13 +24,13 @@ Turning the wheel switches the front display to the accounts you follow, then to
 
 When the followers pass a multiple of the fireworks step, 100 by default, fireworks go off across the front display, with a sound and a blink of the status light. Each multiple counts once, above the most followers seen since the app started; the first count after the start sets no fireworks off.
 
-![35,692,169, then fireworks across the display, then 35,692,179](media/fireworks.gif)
+![35,692,576, then fireworks across the display, then 35,692,583](media/fireworks.gif)
 
 When a poll fails, the counts of the last good one stay, dimmed, with a red cross under the logo; the back display dims too.
 
-![Dimmed: +4,872 TODAY, 35,692,179, and a red cross](media/offline.png)
+![Dimmed: +10,426 TODAY, 35,692,485, and a red cross](media/offline.png)
 
-![The back display dimmed: 35,692,179, +4,872 TODAY and the graph](media/offline-back.png)
+![The back display dimmed: 35,692,485, +10,426 TODAY and the graph](media/offline-back.png)
 
 With no good poll yet for this account, the front shows `--` with the red cross, and the back display `--`.
 
