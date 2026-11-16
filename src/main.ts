@@ -104,33 +104,32 @@ function graph(history: number[], now: number, stale: boolean): string {
       high = Math.max(high, count);
     }
   }
+  /** The columns whose point is on each row, bottom row first. */
+  const points: number[][] = [];
+  for (let row = 0; row < GRAPH_ROWS; row++) points.push([]);
   for (let c = 0; c < GRAPH_COLUMNS; c++) {
     if (levels[c] < 0) continue;
-    levels[c] = high === low ? GRAPH_ROWS >> 1 : Math.round(((levels[c] - low) / (high - low)) * (GRAPH_ROWS - 1));
+    const level = high === low ? GRAPH_ROWS >> 1 : Math.round(((levels[c] - low) / (high - low)) * (GRAPH_ROWS - 1));
+    points[level].push(c);
   }
-  // A row is put together from runs of one letter, not letter by letter: each step of that would leave a copy of the
-  // row so far for the heap to collect.
-  const grid: string[] = [];
+  // Rows from the top down: a column is empty above its point and filled under it, so a row differs from the one above
+  // only in the columns whose point is on it or on the row above. Cell by cell the 5760 cells took 0.5 s of the bar's
+  // time, and generateXpm2 checking each of them 0.3 s more, all of it with the buttons waiting.
+  const cells: string[] = [];
+  for (let c = 0; c < GRAPH_COLUMNS; c++) cells.push(".");
+  const lines = [
+    "! XPM2",
+    `${GRAPH_COLUMNS} ${GRAPH_ROWS} 3 1`,
+    ". c none",
+    `l c ${stale ? "#666666" : "#FFFFFF"}`,
+    `f c ${stale ? "#202020" : "#505050"}`,
+  ];
   for (let row = GRAPH_ROWS - 1; row >= 0; row--) {
-    const runs: string[] = [];
-    let run = "";
-    let length = 0;
-    for (const level of levels) {
-      const cell = level < 0 || row > level ? "." : row === level ? "l" : "f";
-      if (cell !== run && length > 0) {
-        runs.push(run.repeat(length));
-        length = 0;
-      }
-      run = cell;
-      length++;
-    }
-    runs.push(run.repeat(length));
-    grid.push(runs.join(""));
+    if (row + 1 < GRAPH_ROWS) for (const c of points[row + 1]) cells[c] = "f";
+    for (const c of points[row]) cells[c] = "l";
+    lines.push(cells.join(""));
   }
-  return generateXpm2({
-    palette: { ".": "none", l: stale ? "#666666" : "#FFFFFF", f: stale ? "#202020" : "#505050" },
-    grid,
-  });
+  return lines.join("\n");
 }
 
 /** Fireworks over the whole front: shells fly up from the bottom and burst, a frame every FIREWORKS_MS. */
@@ -465,16 +464,8 @@ function main(): void {
       crossed = peak !== null && Math.floor(counts.followers / step) > Math.floor(peak / step);
       peak = peak === null ? counts.followers : Math.max(peak, counts.followers);
     }
-    // The fireworks start in a run of their own, once this one is over. The graph just made takes most of a second of
-    // the bar's time; the emulator lets the requests of a run out at once but holds its timers until the bar would be
-    // done with it, so fireworks started here stood on their first frame for a second.
-    if (crossed) {
-      setTimeout(() => {
-        if (!stopped) celebrate();
-      }, 0);
-    } else {
-      redraw();
-    }
+    if (crossed) celebrate();
+    else redraw();
   }
 
   let timer: ReturnType<typeof setInterval> | undefined;
